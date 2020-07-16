@@ -8,7 +8,7 @@
 [![repo size](https://img.shields.io/github/repo-size/yiyungent/vue-sim-captcha.svg?style=flat)]()
 [![LICENSE](https://img.shields.io/github/license/yiyungent/vue-sim-captcha.svg?style=flat)](https://github.com/yiyungent/vue-sim-captcha/blob/master/LICENSE)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fyiyungent%2Fvue-sim-captcha.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fyiyungent%2Fvue-sim-captcha?ref=badge_shield)
-[![NPM version](https://img.shields.io/npm/v/sim-captcha.svg)](https://www.npmjs.com/package/sim-captcha)
+[![NPM version](https://img.shields.io/npm/v/vue-sim-captcha.svg)](https://www.npmjs.com/package/vue-sim-captcha)
 
 
 [English](README_en.md)
@@ -27,7 +27,7 @@ PM> npm install vue-sim-captcha
 
 ## 使用
 
-- [详细文档](https://yiyungent.github.io/SimCaptcha "在线文档") 构建中
+- [详细文档](https://yiyungent.github.io/vue-sim-captcha "在线文档") 构建中
 
 ## 相关项目
 
