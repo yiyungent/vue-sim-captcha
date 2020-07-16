@@ -7,27 +7,116 @@
 
 [![repo size](https://img.shields.io/github/repo-size/yiyungent/vue-sim-captcha.svg?style=flat)]()
 [![LICENSE](https://img.shields.io/github/license/yiyungent/vue-sim-captcha.svg?style=flat)](https://github.com/yiyungent/vue-sim-captcha/blob/master/LICENSE)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fyiyungent%2Fvue-sim-captcha.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fyiyungent%2Fvue-sim-captcha?ref=badge_shield)
 [![NPM version](https://img.shields.io/npm/v/vue-sim-captcha.svg)](https://www.npmjs.com/package/vue-sim-captcha)
 
 
-[English](README_en.md)
+<!-- [English](README_en.md) -->
 
 ## 介绍
 
-一个简单易用的点触验证码促进你的开发
- + **优雅** - 简单易用.
+轻松在 Vue.js 下使用点触验证码
+ + **简单** - 简单易用.
  + **免费** - MIT协议 发布
 
 ## 安装
 
 ```bash
-PM> npm install vue-sim-captcha
+PM> npm install vue-sim-captcha --save
 ```
 
 ## 使用
+```js
+// main.js 或单个组件中 Login.vue
+import Vue from 'vue'
+import VueSimCaptcha from 'vue-sim-captcha'
 
-- [详细文档](https://yiyungent.github.io/vue-sim-captcha "在线文档") 构建中
+Vue.use(VueSimCaptcha)
+```
+
+```html
+<!-- Login.vue -->
+<template>
+    <div>
+        <div>
+             <input type="text" v-model="account" />
+             <input type="password" v-model="password" />
+        </div>
+        <div>
+            <button @click="login">登陆</button>
+        </div>
+        <vue-sim-captcha
+        v-model="captcha.showCaptcha"
+        :appId="captcha.appId"
+        :callback="saveTicket"
+        :source="captcha.source"
+        ></vue-sim-captcha>
+    </div>
+</template>
+```
+
+```js
+// Login.vue
+<script>
+export default {
+    data() {
+        account: "",
+        password: "",
+        // 验证码相关信息
+        captcha: {
+            appId: "132132",
+            source: {
+                reqVCodeImgUrl: "https://captcha.moeci.com/api/vCode/VCodeImg",
+                reqVCodeCheckUrl: "https://captcha.moeci.com/api/vCode/VCodeCheck"
+            },
+            showCaptcha: false, // 控制显示隐藏验证码层
+            ticket: "", // 来自验证服务端
+            userId: ""  // 来自验证服务端
+      }
+    },
+    methods:{
+        // 验证服务端确认验证通过后,将回调此函数,无需关注内部实现,将由vue-sim-captcha.js自动完成与验证服务端captcha.moeci.com的交互
+        saveTicket(res) {
+            if (res.code === 0) {
+                // 验证码服务端-验证通过
+                console.log("第一次验证通过");
+                // 第一次验证通过
+                // 准备 业务后台 第二次验证
+                this.captcha.ticket = res.ticket;
+                this.captcha.userId = res.userId;
+                console.log("第一次验证 结束");
+            }
+        },
+        // 登陆
+        login() {
+            if (this.captcha.ticket == "" || this.captcha.userId == "") {
+                // 弹出验证码
+                this.captcha.showCaptcha = true;
+                return;
+            }
+            // 发送http请求，到业务后台验证
+            // 传 ticket, userId 用作第二次验证
+            apiLogin(
+                this.account,
+                this.password,
+                this.captcha.ticket,
+                this.captcha.userId
+            ).then(res => {
+                if (res.code > 0) {
+                    // 登陆成功
+                } else {
+                    // 登录失败
+                    alert(res.message);
+                    this.captcha.ticket = "";
+                    this.captcha.userId = "";
+                }
+            });
+        },
+
+
+    }
+}
+</script>
+```
 
 ## 相关项目
 
@@ -37,10 +126,6 @@ PM> npm install vue-sim-captcha
 ## 鸣谢
 
 - 点触验证码设计参考自 <a href="https://github.com/wangchengqun/NetCoreVerificationCode" target="_blank">NetCoreVerificationCode</a>，感谢作者 wangchengqun 的贡献
-
-## LICENSE
-
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fyiyungent%2Fvue-sim-captcha.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fyiyungent%2Fvue-sim-captcha?ref=badge_large)
 
 ## Donate
 
