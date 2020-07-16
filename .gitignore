@@ -1,6 +1,6 @@
 .DS_Store
 node_modules/
-dist/
+#dist/ 发布上去, 方便jsdelivr CDN
 npm-debug.log
 yarn-error.log
 
