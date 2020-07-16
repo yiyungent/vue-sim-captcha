@@ -2,11 +2,15 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  entry: './src/main.js',
+  // 根据不同环境走不同入口
+  entry: NODE_ENV = 'development' ? './src/main.js' : './src/lib/index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'build.js'
+    filename: 'vue-sim-captcha.js',
+    library: 'vue-sim-captcha', // 指定使用require时的模块名
+    libraryTarget: 'umd', // 指定输出格式
+    umdNamedDefine: true // 会对 UMD 的构建过程中的 AMD 模块进行重命名。否则就使用匿名的 define
   },
   module: {
     rules: [
@@ -16,7 +20,7 @@ module.exports = {
           'vue-style-loader',
           'css-loader'
         ],
-      },      {
+      }, {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
@@ -36,12 +40,22 @@ module.exports = {
         options: {
           name: '[name].[ext]?[hash]'
         }
+      },
+      {
+        test: /\.(png|woff|woff2|svg|ttf|eot)(\?.*)?$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 100000,  //这里要足够大这样所有的字体图标都会打包到css中
+          }
+        }
       }
     ]
   },
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': path.resolve(__dirname, './src')
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
