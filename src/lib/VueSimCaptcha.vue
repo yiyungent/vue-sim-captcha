@@ -2,8 +2,11 @@
   <div id="simCaptcha-layer" :class="layerClass">
     <div id="simCaptcha-vCodeTip">{{resVCodeTip}}</div>
     <div id="simCaptcha-img-box">
-      <img ref="simCaptchaImg" id="simCaptcha-img" :src="resVCodeImg" @click="imgClick" />
-      <div id="simCaptcha-loading">加载中...</div>
+      <img ref="simCaptchaImg" id="simCaptcha-img" :src="resVCodeImg" @click="imgClick" v-show="resVCodeImg!=''" />
+      <div id="simCaptcha-loading">
+        <div class="simCaptcha-loading-icon">&#xe600;</div>
+        <div class="simCaptcha-loading-tip">加载中...</div>
+      </div>
       <div id="simCaptcha-marks">
         <div
           v-for="(item, index) in markItems"

@@ -98,6 +98,7 @@
     position: relative;
     overflow: hidden;
     height: 260px;
+    width: 260px;
 }
 
 #simCaptcha-img {
@@ -128,18 +129,22 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.12);
-    font-size: 14px;
-    color: #b2b2b2;
-    /*flex 布局*/
-    display: flex;
-    /*实现垂直居中*/
-    align-items: center;
-    /*实现水平居中*/
-    justify-content: center;
+    background: #e5e5e5;
     /* 注意:一定要比图片层级小, 否者会盖住图片 */
     z-index: -1;
-  }
+}
+#simCaptcha-loading .simCaptcha-loading-icon {
+    font-family: "sim-captcha-iconfont";
+    font-size: 30px;
+    color: #b2b2b2;
+    text-align: center;
+    margin-top: 102px;
+}
+#simCaptcha-loading .simCaptcha-loading-tip {
+    font-size: 14px;
+    color: #b2b2b2;
+    text-align: center;
+}
 .simCaptcha-mark {
     position:absolute;
     z-index:9999;
