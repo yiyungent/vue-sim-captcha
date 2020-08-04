@@ -14,7 +14,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.use(captcha)
 }
 
-const VERSION = "0.1.0";
+const VERSION = "0.1.1";
 const GIT_HASH = "";
 console.log(
   `${"\n"} %c vue-sim-captcha v${VERSION} ${GIT_HASH} %c https://github.com/yiyungent/vue-sim-captcha ${"\n"}${"\n"}`,

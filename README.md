@@ -56,7 +56,7 @@ Vue.use(VueSimCaptcha)
 
 ```js
 // Login.vue
-// 以下仅适用于 v0.1.0 及以上
+// 以下仅适用于 v0.1.1 及以上
 <script>
 export default {
     data() {
