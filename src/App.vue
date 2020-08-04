@@ -33,8 +33,9 @@ export default {
       captcha: {
         appId: "132132",
         source: {
-          reqVCodeImgUrl: "https://captcha.moeci.com/api/vCode/VCodeImg",
-          reqVCodeCheckUrl: "https://captcha.moeci.com/api/vCode/VCodeCheck"
+          baseUrl: "https://captcha.moeci.com",
+          imgUrl: "/api/vCode/VCodeImg",
+          checkUrl: "/api/vCode/VCodeCheck"
         },
         showCaptcha: false
       },

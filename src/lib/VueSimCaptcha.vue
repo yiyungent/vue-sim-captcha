@@ -48,8 +48,7 @@ export default {
       required: true,
       validator: function(value) {
         return (
-          value.reqVCodeImgUrl !== undefined &&
-          value.reqVCodeCheckUrl !== undefined
+          value.baseUrl !== undefined
         );
       }
     },
@@ -79,7 +78,13 @@ export default {
       markItems: [], // [{x:12,y:13},{x:16,y:23}] (px)
       valueData: this.value,
       layerClass: this.valueData ? "simCaptcha-show" : "simCaptcha-hidden",
-      errorTipClass: ""
+      errorTipClass: "",
+
+      sourceData:{
+        baseUrl: this.source.baseUrl,
+        imgUrl: this.source.imgUrl || "/api/SimCaptcha/Img",
+        checkUrl: this.source.checkUrl || "/api/SimCaptcha/Check"
+      }
     };
   },
   computed: {},
@@ -104,6 +109,28 @@ export default {
       this.updateErrorTipClass();
     }
   },
+  created(){
+
+      // imgUrl 拼接成绝对url
+    if (this.sourceData.imgUrl.indexOf("http") != 0) {
+      // 相对路径
+      if (this.sourceData.imgUrl.indexOf("/") != 0) {
+        this.sourceData.imgUrl = this.sourceData.baseUrl + "/" + this.sourceData.imgUrl;
+      } else {
+        this.sourceData.imgUrl = this.sourceData.baseUrl + this.sourceData.imgUrl;
+      }
+    }
+    // checkUrl 拼接成绝对url
+    if (this.sourceData.checkUrl.indexOf("http") != 0) {
+      // 相对路径
+      if (this.sourceData.checkUrl.indexOf("/") != 0) {
+        this.sourceData.checkUrl = this.sourceData.baseUrl + "/" + this.sourceData.checkUrl;
+      } else {
+        this.sourceData.checkUrl = this.sourceData.baseUrl + this.sourceData.checkUrl;
+      }
+    }
+
+  },
   methods: {
     /***
      * 刷新验证码弹出层：1.刷新验证码图片，2.更新验证码提示 3. 清空点触位置数据 4.清空图片上的全部点触标记
@@ -114,7 +141,7 @@ export default {
       // 清除图片上的全部点触标记
       this.clearPointMark();
       // ajax请求新的验证码图片base64
-      tools.httpGet(this.source.reqVCodeImgUrl, response => {
+      tools.httpGet(this.sourceData.imgUrl, response => {
         if (response.code == 0) {
           // 成功获取新验证码
           // 保存并更新 验证码图片
@@ -229,8 +256,11 @@ export default {
       // 清除验证码相关数据
       this.resVCodeImg = "";
       this.resVCodeTip = "";
-      this.resAppId = "";
-      this.resTicket = "";
+
+      // 注意: 不清除 resAppId, resTicket, 因为通过验证后可能会通过 $refs.captcha.resAppId,resTicket 获取票据, 
+      // 直到下一次通过验证获得票据, resAppId, resTicket 才得到更新
+      // this.resAppId = "";
+      // this.resTicket = "";
 
       this.errorTip = "";
     },
@@ -260,7 +290,7 @@ export default {
         ts: ts
       }; // ua, ts 服务端暂时未用，保留。用户花费在此验证码的时间 = 验证码服务端 接收到点击位置数据时间 - 验证码服务端 产生验证码图片时间
       // 发送ajax到验证码服务端 -> 得到response结果，封装为 res
-      tools.httpPost(this.source.reqVCodeCheckUrl, verifyInfo, response => {
+      tools.httpPost(this.sourceData.checkUrl, verifyInfo, response => {
         // code: 0: 通过验证
         if (response.code == 0) {
           // 通过验证 -> 1.回调callback（成功回调） 2.销毁验证码弹出层destroy
