@@ -2,7 +2,7 @@
   "name": "vue-sim-captcha",
   "description": "Easy-to-use SimCaptcha for Vue.js",
   "main": "dist/vue-sim-captcha.js",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "author": "yiyun <yiyungent@gmail.com>",
   "keywords": [
     "vue",
