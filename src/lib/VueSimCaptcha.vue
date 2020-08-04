@@ -3,6 +3,7 @@
     <div id="simCaptcha-vCodeTip">{{resVCodeTip}}</div>
     <div id="simCaptcha-img-box">
       <img ref="simCaptchaImg" id="simCaptcha-img" :src="resVCodeImg" @click="imgClick" />
+      <div id="simCaptcha-loading">加载中...</div>
       <div id="simCaptcha-marks">
         <div
           v-for="(item, index) in markItems"
